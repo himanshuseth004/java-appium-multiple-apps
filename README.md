@@ -1,12 +1,15 @@
-# How to handle permission pop-ups in Java with Appium on [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=appium-java-permissions)
+# How to install multiple apps in Real Devices on [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=appium-testNG-geoLocation) using Appium Java
 
-While performing app automation testing with appium on LambdaTest Grid, you may face a scenario where you would like to automatically handle permission pop-ups. You may choose to either accept all permission pop-ups or dismiss all of them. You can handle the case as mentioned below separately for Android or iOS apps. You can refer to sample test repo [here](https://github.com/LambdaTest/LT-appium-java).
+While performing app automation testing with appium on LambdaTest Grid, you might face a scenario where the APP1 that you are testing needs to interact with a few other applications APP2, APP3. In this scenario, LambdaTest offers an easy way out where you can just [upload your apps](https://www.lambdatest.com/support/docs/appium-java/#upload-your-application) & add them to the multiple apps array.
+It becomes extremely convenient now where you can just add those URLs & run your tests with ease. 
 
 # Steps:
 
-The following is an example on how to set permissions in the capabilities. You can make the change in the `vanilla_android.java` and `vanilla_ios.java` file:
+You can add the app URLs fetched by [uploading your apps](https://www.lambdatest.com/support/docs/appium-java/#upload-your-application) in the ```otherApps``` capability.
 
-Below is the `vanilla_android.java` example shown:
+You can make this change in the ```vanilla_android.java``` and ```vanilla_ios.java```:
+
+Below is the ```vanilla_android.java``` example shown:
 
 ```java
 public class vanilla_android {
@@ -22,7 +25,7 @@ public class vanilla_android {
             capabilities.setCapability("platformVersion", "11");
             capabilities.setCapability("platformName", "Android");
             capabilities.setCapability("isRealMobile", true);
-            capabilities.setCapability("app", "lt://"); //Enter your app url
+            capabilities.setCapability("app", "APP_ID"); //Enter your app url
             capabilities.setCapability("deviceOrientation", "PORTRAIT");
             capabilities.setCapability("build", "Java Vanilla - iOS");
             capabilities.setCapability("name", "Sample Test Java");
@@ -30,17 +33,11 @@ public class vanilla_android {
             capabilities.setCapability("network", false);
             capabilities.setCapability("visual", true);
             capabilities.setCapability("devicelog", true);
-          
-            //GRANT PERMISSIONS FOR ANDROID
-            capabilities.setCapability("autoGrantPermissions", true);
-                
-            //ACCEPT ALERTS FOR IOS
-            capabilities.setCapability("autoAcceptAlerts", true);
-            //DISMISS ALERTS FOR IOS 
-            capabilities.setCapability("autoDismissAlerts", false);
             
+            // ADD THE APP URL OF OTHER APPS THAT YOU'D LIKE TO INSTALL ON THE SAME DEVICE
+            capabilities.setCapability("otherApps", "[\"APP_ID\", \"APP_ID\"]");   // ENTER THE OTHER APP URLs HERE IN AN ARRAY FORMAT
             
-            driver = new AppiumDriver(new URL("https://" +userName + ":" + accessKey + "@mobile-hub.lambdatest.com/wd/hub"), capabilities);
+            driver = new AppiumDriver(new URL("https://" +userName + ":" + accessKey + "@beta-hub.lambdatest.com/wd/hub"), capabilities);
             MobileElement color = (MobileElement) driver.findElement(MobileBy.id("com.lambdatest.proverbial:id/color"));
             color.click();
             MobileElement text = (MobileElement) driver.findElement(MobileBy.id("com.lambdatest.proverbial:id/Text"));
@@ -49,30 +46,22 @@ public class vanilla_android {
             toast.click();
             MobileElement notification = (MobileElement) driver.findElement(MobileBy.id("com.lambdatest.proverbial:id/notification"));
             notification.click();
-            
-            driver.quit();
-            
         } catch (AssertionError a) {
             ((JavascriptExecutor) driver).executeScript("lambda-status=failed");
             a.printStackTrace();
-            driver.quit();
         }
+        driver.quit();
     }
-}
+    }
 ```
 
-## Executing The Test
+##Executing The Test
 
 Execute the following commands to install the required dependencies:
 
-```bash
-mvn clean install
-```
-
+```mvn clean install```
 The tests can be executed in the terminal using the following command:
-
 Android:
-
 ```bash
 mvn test -P android
 ```
@@ -83,6 +72,10 @@ iOS:
 mvn test -P ios
 ```
 
+Info: Your test results would be displayed on the test console (or command-line interface if you are using terminal/cmd) and on the 🔗 LambdaTest App Automation Dashboard.
+
+
+
 Your test results would be displayed on the test console (or command-line interface if you are using terminal/cmd) and on the [LambdaTest App Automation Dashboard](https://appautomation.lambdatest.com/build).
 
 ## Additional Links
@@ -92,13 +85,13 @@ Your test results would be displayed on the test console (or command-line interf
 - [How to integrate LambdaTest with CI/CD](https://www.lambdatest.com/support/docs/integrations-with-ci-cd-tools/)
 
 ## Documentation & Resources :books:
-
+      
 Visit the following links to learn more about LambdaTest's features, setup and tutorials around test automation, mobile app testing, responsive testing, and manual testing.
 
 * [LambdaTest Documentation](https://www.lambdatest.com/support/docs/?utm_source=github&utm_medium=repo&utm_campaign=LT-appium-python)
 * [LambdaTest Blog](https://www.lambdatest.com/blog/?utm_source=github&utm_medium=repo&utm_campaign=LT-appium-python)
 * [LambdaTest Learning Hub](https://www.lambdatest.com/learning-hub/?utm_source=github&utm_medium=repo&utm_campaign=LT-appium-python)
-* [LambdaTest Community](http://community.lambdatest.com/)
+* [LambdaTest Community](http://community.lambdatest.com/)    
 
 ## LambdaTest Community :busts_in_silhouette:
 
@@ -128,8 +121,8 @@ To stay updated with the latest features and product add-ons, visit [Changelog](
 - LT Browser - for responsive testing across 50+ pre-installed mobile, tablets, desktop, and laptop viewports
 
 [<img height="53" width="200" src="https://user-images.githubusercontent.com/70570645/171866795-52c11b49-0728-4229-b073-4b704209ddde.png">](https://accounts.lambdatest.com/register)
-
+   
 ## We are here to help you :headphones:
 
 * Got a query? we are available 24x7 to help. [Contact Us](support@lambdatest.com)
-* For more info, visit - [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=appium-java-permissions)
+* For more info, visit - [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=LT-appium-python)
