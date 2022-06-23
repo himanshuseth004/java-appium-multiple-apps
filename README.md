@@ -1,12 +1,12 @@
-# How to change IP geographic location in Java with Appium on [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=appium-java-geoLocation)
+# How to handle permission pop-ups in Java with Appium on [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=appium-java-permissions)
 
-While performing app automation testing with appium on LambdaTest Grid, you may face a scenario where you would like to simulate location of a specific country. You can easily do that by using the lambdatest capability "GeoLocation" and refer the 2-letter country code in the automation script. You can refer to sample test repo [here](https://github.com/LambdaTest/LT-appium-java).
+While performing app automation testing with appium on LambdaTest Grid, you may face a scenario where you would like to automatically handle permission pop-ups. You may choose to either accept all permission pop-ups or dismiss all of them. You can handle the case as mentioned below separately for Android or iOS apps. You can refer to sample test repo [here](https://github.com/LambdaTest/LT-appium-java).
 
 # Steps:
 
-The following is an example on how to set geoLocation in the capabilities. You can make the change in the ```vanilla_android.java``` and ```vanilla_ios.java``` file:
+The following is an example on how to set permissions in the capabilities. You can make the change in the `vanilla_android.java` and `vanilla_ios.java` file:
 
-Below is the ```vanilla_android.java``` example shown:
+Below is the `vanilla_android.java` example shown:
 
 ```java
 public class vanilla_android {
@@ -14,11 +14,8 @@ public class vanilla_android {
             : System.getenv("LT_USERNAME");
     public static String accessKey = System.getenv("LT_ACCESS_KEY") == null ? "LT_ACCESS_KEY" //Add accessKey here
             : System.getenv("LT_ACCESS_KEY");
-
     private static AppiumDriver driver;
-
     public static void main(String args[]) throws MalformedURLException, InterruptedException {
-
         try {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("deviceName", "Galaxy S20");
@@ -34,22 +31,26 @@ public class vanilla_android {
             capabilities.setCapability("visual", true);
             capabilities.setCapability("devicelog", true);
           
-            //ADD GEOLOCATION BASED ON COUNTRY CODE
-            capabilities.setCapability("geoLocation", "fr");
-
+            //GRANT PERMISSIONS FOR ANDROID
+            capabilities.setCapability("autoGrantPermissions", true);
+                
+            //ACCEPT ALERTS FOR IOS
+            capabilities.setCapability("autoAcceptAlerts", true);
+            //DISMISS ALERTS FOR IOS 
+            capabilities.setCapability("autoDismissAlerts", false);
+            
+            
             driver = new AppiumDriver(new URL("https://" +userName + ":" + accessKey + "@mobile-hub.lambdatest.com/wd/hub"), capabilities);
-
             MobileElement color = (MobileElement) driver.findElement(MobileBy.id("com.lambdatest.proverbial:id/color"));
             color.click();
-
             MobileElement text = (MobileElement) driver.findElement(MobileBy.id("com.lambdatest.proverbial:id/Text"));
             text.click();
-
             MobileElement toast = (MobileElement) driver.findElement(MobileBy.id("com.lambdatest.proverbial:id/toast"));
             toast.click();
-
             MobileElement notification = (MobileElement) driver.findElement(MobileBy.id("com.lambdatest.proverbial:id/notification"));
             notification.click();
+            
+            driver.quit();
             
         } catch (AssertionError a) {
             ((JavascriptExecutor) driver).executeScript("lambda-status=failed");
@@ -60,11 +61,14 @@ public class vanilla_android {
 }
 ```
 
-##Executing The Test
+## Executing The Test
 
 Execute the following commands to install the required dependencies:
 
-```mvn clean install```
+```bash
+mvn clean install
+```
+
 The tests can be executed in the terminal using the following command:
 
 Android:
@@ -78,11 +82,6 @@ iOS:
 ```bash
 mvn test -P ios
 ```
-
-Info: Your test results would be displayed on the test console (or command-line interface if you are using terminal/cmd) and on the 🔗 LambdaTest App Automation Dashboard.
-
-
-
 
 Your test results would be displayed on the test console (or command-line interface if you are using terminal/cmd) and on the [LambdaTest App Automation Dashboard](https://appautomation.lambdatest.com/build).
 
@@ -133,4 +132,4 @@ To stay updated with the latest features and product add-ons, visit [Changelog](
 ## We are here to help you :headphones:
 
 * Got a query? we are available 24x7 to help. [Contact Us](support@lambdatest.com)
-* For more info, visit - [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=appium-java-geoLocation)
+* For more info, visit - [LambdaTest](https://www.lambdatest.com/?utm_source=github&utm_medium=repo&utm_campaign=appium-java-permissions)

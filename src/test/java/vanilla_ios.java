@@ -12,9 +12,9 @@ import java.net.URL;
 
 public class vanilla_ios {
 
-    public static String userName = System.getenv("LT_USERNAME") == null ? "LT_USERNAME"  //Add username here
+    public static String userName = System.getenv("LT_USERNAME") == null ? "shantanuw"  //Add username here
             : System.getenv("LT_USERNAME");
-    public static String accessKey = System.getenv("LT_ACCESS_KEY") == null ? "LT_ACCESS_KEY" //Add accessKey here
+    public static String accessKey = System.getenv("LT_ACCESS_KEY") == null ? "rsS1I3BEWoWcAUJHtfa5TZaLjRV1NTeKmyRVJ8QjtCHhMIK3BW" //Add accessKey here
             : System.getenv("LT_ACCESS_KEY");
 
     public static IOSDriver driver = null;
@@ -26,15 +26,18 @@ public class vanilla_ios {
             caps.setCapability("platformVersion", "15");
             caps.setCapability("deviceName", "iPhone 12");
             caps.setCapability("isRealMobile", true);
-            caps.setCapability("app", "lt://"); //Enter your app url
+            caps.setCapability("app", "lt://APP100202361655316158281121"); //Enter your app url
             caps.setCapability("platformName", "iOS");
             caps.setCapability("build", "Java Vanilla - iOS");
             caps.setCapability("name", "Sample Test Java");
             caps.setCapability("devicelog", true);
             caps.setCapability("network", true);
 
-            //ADD GEOLOCATION BASED ON COUNTRY CODE
-            caps.setCapability("geoLocation", "fr");
+            //ACCEPT ALERTS FOR IOS
+            caps.setCapability("autoAcceptAlerts", true);
+
+            //DISMISS ALERTS FOR IOS
+            caps.setCapability("autoDismissAlerts", false);
 
 
            driver = new IOSDriver(new URL("https://" + userName + ":" + accessKey + "@mobile-hub.lambdatest.com/wd/hub"), caps);
